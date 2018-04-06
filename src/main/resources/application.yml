@@ -1,0 +1,3 @@
+management.endpoint.metrics.enabled: true
+management.health.mongo.enabled: true
+management.endpoints.web.exposure.include: metrics,health
