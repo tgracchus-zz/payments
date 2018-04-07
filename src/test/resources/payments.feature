@@ -33,4 +33,4 @@ Feature: Manage payments
   Scenario: Update non existing payment
     Given a payment with name "nonExistingPayment" with definition "nonExistingPayment.json"
     Then update payment "nonExistingPayment" with definition "updatePayment.json" as "updatedPayment"
-    And last status is 404
+    And last status is 200

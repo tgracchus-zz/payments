@@ -30,13 +30,22 @@ a real mongodb cluster.
 
 ### Programming language and Frameworks
 
-I had used Java and Spring Boot 2.0.0 framework with reactive support (webflux).
-
-Spring Boot provides an easy way to create a rest service with production ready features (actuator module) and
+I had used Spring Boot 2.0.0 framework. It provides an easy way to create a rest service with production ready features (actuator module) and
 and mongodb integration.
 
-Reactive support provides non-blocking async request dispatching on a Netty Server. Which in theory might
-support more request per second than regular java servlet server.
+Along with a Reactive Streams library (Reactor) for using a reactive mongo driver and tomcat 8.5 nio with servlet 3.1 this configuration provides non-blocking async request dispatching in the server and in the user code. 
+which should support more load than blocking io.
+
+See reasoning here [link](.http://callistaenterprise.se/blogg/teknik/2014/04/22/c10k-developing-non-blocking-rest-services-with-spring-mvc/)
+
+I also added spring security to add cors and some security headers
+- Content Security Policy (CSP)
+- X-Frame-Options
+- Content-Type-Options
+- Referrer policy
+- X-XSS-Protection
+
+CSFR is disable since we do not have authentication
 
 ### Test
 

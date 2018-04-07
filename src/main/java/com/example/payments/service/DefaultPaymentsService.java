@@ -41,15 +41,7 @@ public class DefaultPaymentsService implements PaymentsService {
     public Mono<PaymentDocument> update(PaymentDocument newPaymentDocument) {
         return Mono.just(newPaymentDocument)
                 .flatMap(payment ->
-                        paymentRepository.existsById(payment.getId())
-                                .flatMap(exist -> {
-                                            if (exist) {
-                                                return paymentRepository.save(payment);
-                                            } else {
-                                                return Mono.empty();
-                                            }
-                                        }
-                                )
+                        paymentRepository.save(payment)
                 )
                 .subscribeOn(Schedulers.elastic());
     }
