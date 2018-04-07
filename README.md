@@ -105,6 +105,72 @@ It is also checking if we have connection to mongo, it's configured [here](./src
 
 This endpoint is basically needed to support Load Balancing and Services Discovery
 
+#### **Http trace:**
+- Endpoint: `GET    /actuator/httptrace`
+
+Exposes HTTP trace information (by default, the last 100 HTTP request-response exchanges) in jmx and in http formats 
+```{
+     "traces": [
+       {
+         "timestamp": "2018-04-07T09:19:02.827Z",
+         "principal": null,
+         "session": null,
+         "request": {
+           "method": "POST",
+           "uri": "http://localhost:8080/v0/payments",
+           "headers": {
+             "host": [
+               "localhost:8080"
+             ],
+             "user-agent": [
+               "curl/7.55.1"
+             ],
+             "accept": [
+               "*/*"
+             ],
+             "content-type": [
+               "application/json"
+             ],
+             "content-length": [
+               "13"
+             ]
+           },
+           "remoteAddress": null
+         },
+         "response": {
+           "status": 500,
+           "headers": {
+             "X-Content-Type-Options": [
+               "nosniff"
+             ],
+             "X-XSS-Protection": [
+               "1; mode=block"
+             ],
+             "Content-Security-Policy-Report-Only": [
+               "script-src 'self';"
+             ],
+             "Referrer-Policy": [
+               "same-origin"
+             ],
+             "Content-Type": [
+               "application/json;charset=UTF-8"
+             ],
+             "Transfer-Encoding": [
+               "chunked"
+             ],
+             "Date": [
+               "Sat, 07 Apr 2018 09:19:02 GMT"
+             ],
+             "Connection": [
+               "close"
+             ]
+           }
+         },
+         "timeTaken": 95
+       },
+     ]
+   }
+   ```
 
 #### **Metrics List:**
 - Endpoint: `GET    /actuator/metrics`

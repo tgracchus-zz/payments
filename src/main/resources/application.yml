@@ -1,3 +1,4 @@
 management.endpoint.metrics.enabled: true
+management.endpoint.httptrace.enabled: true
 management.health.mongo.enabled: true
-management.endpoints.web.exposure.include: metrics,health
+management.endpoints.web.exposure.include: metrics,health,httptrace
