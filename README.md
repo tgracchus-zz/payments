@@ -13,7 +13,6 @@
 ## Design
 
 
-
 ### Document database
 Since the api is only about payments and there's no other requirement about relations with another entities I decide to
 store the payments in a document database (mongodb) in the form of a [PaymentDocument](./src/main/java/com/example/payments/repository/PaymentDocument.java)
@@ -46,6 +45,9 @@ I also added spring security to add cors and some security headers
 - X-XSS-Protection
 
 CSFR is disable since we do not have authentication
+
+The api is pure http and without authentication or authorization because we asume it's behind a Load Balancer or any other king
+of Reverse Proxy which is actually taking care of it. 
 
 ### Test
 
@@ -81,30 +83,16 @@ magic based
 
 ### Restful API specification
 
-Default specification can be found [here](./src/main/java/com/example/payments/v0/client/PaymentsClient.java)
-or in [here](./src/main/java/com/example/payments/v0/controllers/PaymentsController.java)
+Default specification can be found [here](./src/main/java/com/example/payments/v0/controllers/PaymentsController.java)
 
-```
-@FeignClient(value = "payments", decode404 = true)
- public interface PaymentsClient {
+There's also swagger ui at once the app is started
 
-     @RequestMapping(method = RequestMethod.GET, value = "/v0/payments/{paymentId}", produces = "application/json;charset=UTF-8")
-     public ResponseEntity<PaymentData> findPayment(@PathVariable("paymentId") UUID paymentId);
+`http://localhost:8080/swagger-ui.html`
 
-     @RequestMapping(method = RequestMethod.GET, value = "/v0/payments", produces = "application/json;charset=UTF-8")
-     public ResponseEntity<PaymentDataList> findPayments();
+or the raw json definition at
 
-     @RequestMapping(method = RequestMethod.POST, value = "/v0/payments", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-     public ResponseEntity<PaymentData> newPayment(@RequestBody PaymentDefinition newPayment);
+`http://localhost:8080/v2/api-docs`
 
-     @RequestMapping(method = RequestMethod.PUT, value = "/v0/payments/{paymentId}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-     public ResponseEntity<PaymentData> updatePayment(@PathVariable("paymentId") UUID paymentId, @RequestBody PaymentDefinition newPayment);
-
-     @RequestMapping(method = RequestMethod.DELETE, value = "/v0/payments/{paymentId}", produces = "application/json;charset=UTF-8")
-     public ResponseEntity<PaymentData> deletePayment(@PathVariable("paymentId") UUID paymentId);
-
- }
-```
 
 #### **Healthcheck:**
 - Endpoint: `GET    /actuator/health`

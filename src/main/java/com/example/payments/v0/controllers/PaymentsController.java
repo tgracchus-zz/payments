@@ -6,6 +6,9 @@ import com.example.payments.v0.dto.Payment;
 import com.example.payments.v0.dto.PaymentDataList;
 import com.example.payments.v0.dto.PaymentDefinition;
 import com.example.payments.v0.dto.PaymentData;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,9 @@ public class PaymentsController {
     }
 
     @GetMapping(path = "/{paymentId}", produces = "application/json;charset=UTF-8")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, response = PaymentData.class,message = "Find payment")
+    })
     public Mono<ResponseEntity<PaymentData>> findPayment(@PathVariable("paymentId") UUID paymentId) {
         return paymentsService.find(paymentId)
                 .map(Payment::fromPayment)
@@ -39,6 +45,9 @@ public class PaymentsController {
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, response = PaymentDataList.class,message = "Find payments")
+    })
     public Mono<ResponseEntity<PaymentDataList>> findPayments() {
         return paymentsService.findAll()
                 .map(Payment::fromPayment)
@@ -48,6 +57,9 @@ public class PaymentsController {
     }
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, response = PaymentData.class,message = "Created payment")
+    })
     public Mono<ResponseEntity<PaymentData>> newPayment(@Valid @RequestBody PaymentDefinition newPayment) throws Exception {
         return paymentsService.create(newPayment.toPaymentDocument())
                 .map(Payment::fromPayment)
@@ -65,6 +77,9 @@ public class PaymentsController {
     }
 
     @PutMapping(path = "/{paymentId}", consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, response = PaymentData.class,message = "Updated or created payment")
+    })
     public Mono<ResponseEntity<PaymentData>> updatePayment(@PathVariable("paymentId") UUID paymentId, @Valid @RequestBody PaymentDefinition updatePayment) {
         return paymentsService.update(updatePayment.toPaymentDocument(paymentId))
                 .map(Payment::fromPayment)
@@ -74,6 +89,9 @@ public class PaymentsController {
     }
 
     @DeleteMapping(path = "/{paymentId}", produces = "application/json;charset=UTF-8")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, response = PaymentData.class,message = "Deleted payment")
+    })
     public Mono<ResponseEntity<PaymentData>> deletePayment(@PathVariable("paymentId") UUID paymentId) {
         return paymentsService.delete(paymentId)
                 .map(Payment::fromPayment)
